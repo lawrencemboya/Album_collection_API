@@ -1,10 +1,12 @@
 package wcci.Album_collection_API;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity //1st -> Declare class as Entity for JPA-Data base. 
@@ -15,8 +17,11 @@ public class Album {
 	@GeneratedValue
 	private Long id;
 	
-	@OneToMany
+	@OneToMany (mappedBy = "album")
 	private Collection <Song> songs;
+	
+	@ManyToOne
+	private Artist artist;
 	
 	// 2nd -> Declare local variables for constructor
 	private String albumTitle;
@@ -28,6 +33,7 @@ public class Album {
 		this.albumTitle = albumTitle;
 		this.albumImageUrl = albumImageUrl;
 		this.recordLabel = recordLabel;
+		this.songs = new ArrayList<>();
 	}
 	
 	private Album() {
@@ -53,6 +59,23 @@ public class Album {
 	public String getRecordLabel() {
 		return recordLabel;
 	}
+	
+	public Object getArtist() {
+		return artist;
+	}
+	
+	public void addArtist(Artist artist) {
+		this.artist = artist;
+		
+	}
+	
+	//not sure how it came to be
+	public void addSong(Song song) {
+		this.songs.add(song);
+		
+	}
+	
+	
 
 	@Override
 	public int hashCode() {
@@ -78,6 +101,8 @@ public class Album {
 			return false;
 		return true;
 	}
+
+
 	
 	
 	
